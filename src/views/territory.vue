@@ -39,7 +39,20 @@
 		},
 		methods: {
 			initChart(){
-				this.chart = echarts.init(this.$refs.myEchart);
+
+
+				$.get('assets/json/china.json', function (chinaJson) {
+					this.chart.registerMap('china', chinaJson);
+					this.chart = echarts.init(this.$refs.myEchart);
+					chart.setOption({
+						series: [{
+							type: 'map',
+							map: 'china'
+						}]
+					});
+				});
+
+
 				// 把配置和数据放这里
 				this.chart.setOption(
 					{
@@ -79,7 +92,7 @@
 							{
 								name: 'iphone3',
 								type: 'map',
-								mapType: 'china',
+								map: 'china',
 								roam: false,
 								label: {
 									normal: {
