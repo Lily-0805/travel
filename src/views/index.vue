@@ -3,21 +3,13 @@
 	<div>
 		<div class="nav">
 			<ul>
-				<li>我去了哪里？</li>
+				<li :class="$route.path=='/territory' ? 'on' : ''"><router-link to="/territory">我的版图</router-link></li>
+				<li :class="$route.path=='/footprint' ? 'on' : ''"><router-link to="/footprint">我的足迹</router-link></li>
+				<li :class="$route.path=='/where' ? 'on' : ''"><router-link to="/where">我去了哪里？</router-link></li>
 			</ul>
 		</div>
 		<el-container style="height: 100%;">
 			<router-view></router-view>
-
-			<!--<el-header>-->
-				<!--<el-menu :default-active="navselected" router class="el-menu-demo" mode="horizontal" @select="menuselct">-->
-					<!--<template v-for="(item,index) in navList">-->
-						<!--<el-menu-item :index="item.path" :key="item.path">{{item.name}}</el-menu-item>-->
-					<!--</template>-->
-				<!--</el-menu>-->
-
-			<!--</el-header>-->
-
 		</el-container>
 	</div>
 </template>
@@ -26,26 +18,20 @@
 	.el-menu.el-menu--horizontal{ border-bottom: none;}
 	.el-menu--horizontal>.el-menu-item{ float: right;}
 	.el-main{padding: 0; width: 100%; height: 100%;}
-	.nav{ position: fixed; top: 0; left: 0; }
+	.nav{ position: fixed; top: 20px; right: 20px; padding: 0 13px;  background: #fff; border-radius: 25px; box-shadow:  0 0 5px #c69; z-index: 1}
+	.nav li{ float: left; padding: 0 25px; height: 40px; line-height: 40px; text-align: center; font-size: 14px;}
+	.nav li.on{ color: #c69}
 </style>
 <script>
 	export default {
 		data () {
 			return {
-                navList:[
-	                {name:'我去了哪里？',path:'/where'},
-	                {name:'我的足迹',path:'/footprint'},
-                	{name:'我的版图',path:'/territory'}
-                ],
-				navselected:'/map',
+
 
 			}
 		},
 		methods:{
-			//导航选择
-			menuselct(key){
-				this.navselected=key
-			},
+
 		}
 	}
 </script>

@@ -1,14 +1,23 @@
 <template>
-	<div>
+	<div class="main-box">
 		<div :style="{height:height,width:width}" ref="myEchart"></div>
-
+		<div class="change">
+			<img @click="changeChart('china')" :class="chartFor=='china' ? 'on' : ''" src="/image/china.png"/>
+			<img @click="changeChart('world')" :class="chartFor=='world' ? 'on' : ''" src="/image/world.png"/>
+		</div>
 	</div>
 </template>
 <style>
-
+.main-box{ position: fixed; top: 0; left: 0; width: 100%; height: 100%}
+	.change{ position: fixed; padding: 10px 5px; bottom: 20px; right: 20px; z-index: 1;}
+.change img{ float: left; margin: 0 5px; border-radius: 4px; border: 2px solid #fff; cursor: pointer;}
+.change img.on{border: 2px solid #6c9;}
+.change img:hover{border: 2px solid #6c9;}
 </style>
 <script>
 	import echarts from 'echarts'
+	import 'echarts/map/js/china.js';
+	import 'echarts/map/js/world.js';
 
 	export default {
 		props: {
@@ -24,11 +33,15 @@
 		data(){
 			return {
 				chart:null,
+				chinaData:['北京','天津','上海','重庆','河南','云南','辽宁','黑龙江','湖南','安徽','山东','江苏','浙江','湖北','广西','甘肃','山西','内蒙古','陕西','福建','贵州','广东','西藏','四川','宁夏','海南','香港','澳门'],
+				worldData:['China','Japan'],
+				chartFor:'china'
+
 			}
 		},
 
 		mounted() {
-			this.initChart();
+			this.chinaChart();
 		},
 		beforeDestroy() {
 			if (!this.chart) {
@@ -38,169 +51,122 @@
 			this.chart = null;
 		},
 		methods: {
-			initChart(){
+			chinaChart(){
+				let that = this;
+				let chartData =[];
 
+				for(let i=0; i<that.chinaData.length;i++){
+					chartData.push({
+						name: that.chinaData[i],
+						selected:true,
 
-				$.get('assets/json/china.json', function (chinaJson) {
-					this.chart.registerMap('china', chinaJson);
-					this.chart = echarts.init(this.$refs.myEchart);
-					chart.setOption({
-						series: [{
-							type: 'map',
-							map: 'china'
-						}]
-					});
-				});
+						emphasis:{
+							itemStyle:{
+								areaColor:'#66cc99',
+							},
+							label:{
+								show:true,
+								color:'#fff'
+							}
+						}
+					})
+				}
 
 
 				// 把配置和数据放这里
-				this.chart.setOption(
+				that.chart = echarts.init(that.$refs.myEchart);
+				that.chart.setOption(
 					{
-						title: {
-							text: 'iphone销量',
-							subtext: '纯属虚构',
-							left: 'center'
-						},
-						tooltip: {
-							trigger: 'item'
-						},
-						legend: {
-							orient: 'vertical',
-							left: 'left',
-							data:['iphone3','iphone4','iphone5']
-						},
-						visualMap: {
-							min: 0,
-							max: 2500,
-							left: 'left',
-							top: 'bottom',
-							text: ['高','低'],           // 文本，默认为数值文本
-							calculable: true
-						},
-						toolbox: {
-							show: true,
-							orient: 'vertical',
-							left: 'right',
-							top: 'center',
-							feature: {
-								dataView: {readOnly: false},
-								restore: {},
-								saveAsImage: {}
-							}
-						},
-						series: [
-							{
-								name: 'iphone3',
-								type: 'map',
-								map: 'china',
-								roam: false,
-								label: {
-									normal: {
-										show: true
-									},
-									emphasis: {
-										show: true
-									}
-								},
-								data:[
-									{name: '北京',value: 0 },
-									{name: '天津',value: 0 },
-									{name: '上海',value: 0 },
-									{name: '重庆',value: 0 },
-									{name: '河北',value: 0 },
-									{name: '河南',value: 0 },
-									{name: '云南',value: 0 },
-									{name: '辽宁',value: 0 },
-									{name: '黑龙江',value: 0 },
-									{name: '湖南',value: 0 },
-									{name: '安徽',value: 0 },
-									{name: '山东',value: 0 },
-									{name: '新疆',value: 0 },
-									{name: '江苏',value: 0 },
-									{name: '浙江',value: 0 },
-									{name: '江西',value: 0 },
-									{name: '湖北',value: 0 },
-									{name: '广西',value: 0 },
-									{name: '甘肃',value: 0 },
-									{name: '山西',value: 0 },
-									{name: '内蒙古',value: 0 },
-									{name: '陕西',value: 0 },
-									{name: '吉林',value: 0 },
-									{name: '福建',value: 0 },
-									{name: '贵州',value: 0 },
-									{name: '广东',value: 0 },
-									{name: '青海',value: 0 },
-									{name: '西藏',value: 0 },
-									{name: '四川',value: 0 },
-									{name: '宁夏',value: 0 },
-									{name: '海南',value: 0 },
-									{name: '台湾',value: 0 },
-									{name: '香港',value: 0 },
-									{name: '澳门',value: 0 }
-								]
-							},
-							{
-								name: 'iphone4',
-								type: 'map',
-								mapType: 'china',
-								label: {
-									normal: {
-										show: true
-									},
-									emphasis: {
-										show: true
-									}
-								},
-								data:[
-									{name: '北京',value: 0 },
-									{name: '天津',value: 0 },
-									{name: '上海',value: 0 },
-									{name: '重庆',value: 0 },
-									{name: '河北',value: 0 },
-									{name: '安徽',value: 0 },
-									{name: '新疆',value: 0 },
-									{name: '浙江',value: 0 },
-									{name: '江西',value: 0 },
-									{name: '山西',value: 0 },
-									{name: '内蒙古',value: 0 },
-									{name: '吉林',value: 0 },
-									{name: '福建',value: 0 },
-									{name: '广东',value: 0 },
-									{name: '西藏',value: 0 },
-									{name: '四川',value: 0 },
-									{name: '宁夏',value: 0 },
-									{name: '香港',value: 0 },
-									{name: '澳门',value: 0 }
-								]
-							},
-							{
-								name: 'iphone5',
-								type: 'map',
-								mapType: 'china',
-								label: {
-									normal: {
-										show: true
-									},
-									emphasis: {
-										show: true
-									}
-								},
-								data:[
-									{name: '北京',value: 0 },
-									{name: '天津',value: 0 },
-									{name: '上海',value: 0 },
-									{name: '广东',value: 0 },
-									{name: '台湾',value: 0 },
-									{name: '香港',value: 0 },
-									{name: '澳门',value: 0 }
-								]
-							}
-						]
-					}
+						backgroundColor:'#333',
+						series: [{
+							type: 'map',
+							mapType: 'china',
+							selectedMode : false,
+							label:{
+								show:true,
 
+							},
+							emphasis:{
+								itemStyle:{
+									areaColor:'#efefef',
+								},
+								label:{
+									color:'#000'
+								}
+							},
+							itemStyle:{
+								areaColor:'#efefef',
+								borderColor:'#fff',
+								shadowColor:'rgba(0, 0, 0, 0.9)'
+							},
+							data: chartData
+						}]
+					}
 				)
 
+			},
+			worldChart(){
+				let that = this;
+				let chartData =[];
+
+				for(let i=0; i<that.worldData.length;i++){
+					chartData.push({
+						name: that.worldData[i],
+						selected:true,
+
+						emphasis:{
+							itemStyle:{
+								areaColor:'#66cc99',
+							},
+							label:{
+								show:true,
+								color:'#fff'
+							}
+						}
+					})
+				}
+
+
+				// 把配置和数据放这里
+				that.chart = echarts.init(that.$refs.myEchart);
+				that.chart.setOption(
+					{
+						backgroundColor:'#333',
+						series: [{
+							type: 'map',
+							mapType: 'world',
+							selectedMode : false,
+
+							emphasis:{
+								itemStyle:{
+									areaColor:'#efefef',
+								},
+								label:{
+									color:'#000'
+								}
+							},
+							itemStyle:{
+								areaColor:'#efefef',
+								borderColor:'#ccc',
+								shadowColor:'rgba(0, 0, 0, 0.9)'
+							},
+							data: chartData
+						}]
+					}
+				)
+
+			},
+
+			changeChart(chartName){
+				this.chartFor=chartName;
+				this.chart.dispose();
+				if(chartName=='world'){
+					this.worldChart();
+				}else{
+					this.chinaChart();
+				}
 			}
+
 		}
 	}
 </script>
