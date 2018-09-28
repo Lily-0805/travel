@@ -4,3 +4,5 @@ body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; 
 a:focus,a:active {outline: none;}
 a,a:focus,a:hover { cursor: pointer; color: inherit; text-decoration: none;}
 ul,li{list-style: none;}
+
+.main-box{ position: fixed; top: 0; left: 0; width: 100%; height: 100%}

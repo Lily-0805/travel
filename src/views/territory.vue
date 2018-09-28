@@ -7,9 +7,9 @@
 		</div>
 	</div>
 </template>
-<style>
-.main-box{ position: fixed; top: 0; left: 0; width: 100%; height: 100%}
-	.change{ position: fixed; padding: 10px 5px; bottom: 20px; right: 20px; z-index: 1;}
+<style scoped>
+
+.change{ position: fixed; padding: 10px 5px; bottom: 20px; right: 20px; z-index: 1;}
 .change img{ float: left; margin: 0 5px; border-radius: 4px; border: 2px solid #fff; cursor: pointer;}
 .change img.on{border: 2px solid #6c9;}
 .change img:hover{border: 2px solid #6c9;}
